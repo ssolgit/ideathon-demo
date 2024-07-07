@@ -1,95 +1,82 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import { MantineProvider } from '@mantine/core';
+import { Link, RichTextEditor } from '@mantine/tiptap';
+import Highlight from '@tiptap/extension-highlight';
+import SubScript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
+import TextAlign from '@tiptap/extension-text-align';
+import Underline from '@tiptap/extension-underline';
+import { useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+
+const content =
+  '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
 
 export default function Home() {
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+    ],
+    content,
+  });
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/ideathon-demo/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <MantineProvider>
+      <RichTextEditor editor={editor}>
+        <RichTextEditor.Toolbar sticky stickyOffset={60}>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Bold />
+            <RichTextEditor.Italic />
+            <RichTextEditor.Underline />
+            <RichTextEditor.Strikethrough />
+            <RichTextEditor.ClearFormatting />
+            <RichTextEditor.Highlight />
+            <RichTextEditor.Code />
+          </RichTextEditor.ControlsGroup>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.H1 />
+            <RichTextEditor.H2 />
+            <RichTextEditor.H3 />
+            <RichTextEditor.H4 />
+          </RichTextEditor.ControlsGroup>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Blockquote />
+            <RichTextEditor.Hr />
+            <RichTextEditor.BulletList />
+            <RichTextEditor.OrderedList />
+            <RichTextEditor.Subscript />
+            <RichTextEditor.Superscript />
+          </RichTextEditor.ControlsGroup>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Link />
+            <RichTextEditor.Unlink />
+          </RichTextEditor.ControlsGroup>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.AlignLeft />
+            <RichTextEditor.AlignCenter />
+            <RichTextEditor.AlignJustify />
+            <RichTextEditor.AlignRight />
+          </RichTextEditor.ControlsGroup>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Undo />
+            <RichTextEditor.Redo />
+          </RichTextEditor.ControlsGroup>
+        </RichTextEditor.Toolbar>
+
+        <RichTextEditor.Content />
+      </RichTextEditor>
+    </MantineProvider>
   );
 }
